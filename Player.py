@@ -25,10 +25,16 @@ class Player(pygame.Rect):
         if key[pygame.K_s] and self.locationY  < 800-self.height:
             self.move_ip(0,self.speed)
             self.updateLocation(0,self.speed)
+        if key[pygame.K_SPACE]:
+            self.jump()
     
 
     def updateLocation(self, changeX, changeY):
         self.locationX += changeX
         self.locationY += changeY
     
+
+
+    def jump(self, is_jumping, jump_height):
+        
 
