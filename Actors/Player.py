@@ -8,10 +8,14 @@ class Player(pygame.Rect):
         self.width = width
         self.height = height
         self.speed = speed
+        self.speed = speed
+
+        self.vel_y = 0
 
 
 
     def move(self):
+
         key = pygame.key.get_pressed()
         if key[pygame.K_d] and self.locationX < 800 - self.width:
             self.move_ip(self.speed,0)
@@ -25,9 +29,30 @@ class Player(pygame.Rect):
         if key[pygame.K_s] and self.locationY  < 800-self.height:
             self.move_ip(0,self.speed)
             self.updateLocation(0,self.speed)
-        if key[pygame.K_SPACE]:
-            self.jump()
-    
+
+        
+
+        
+
+
+       
+
+
+
+        # Check if the player hits the ground
+        if self.locationY >= 800 - self.height:
+            self.locationY = 800 - self.height
+            self.vel_y = 0  
+        else:
+            # Apply gravity
+            self.vel_y += 0.5
+            self.move_ip(0,self.vel_y)
+            self.updateLocation(0,self.vel_y)
+
+
+       
+        
+
 
     def updateLocation(self, changeX, changeY):
         self.locationX += changeX
@@ -35,6 +60,7 @@ class Player(pygame.Rect):
     
 
 
-    def jump(self, is_jumping, jump_height):
+
+        
         
 
