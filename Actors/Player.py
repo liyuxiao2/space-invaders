@@ -23,7 +23,7 @@ class Player(pygame.Rect):
         if key[pygame.K_a] and self.locationX  >  0:
             self.move_ip(-self.speed,0)
             self.updateLocation(-self.speed,0)
-        if key[pygame.K_w] and self.locationY > 0:
+        if key[pygame.K_SPACE] and self.locationY > 0:
             self.move_ip(0,-self.speed)
             self.updateLocation(0,-self.speed)
         if key[pygame.K_s] and self.locationY  < 800-self.height:
@@ -57,6 +57,12 @@ class Player(pygame.Rect):
     def updateLocation(self, changeX, changeY):
         self.locationX += changeX
         self.locationY += changeY
+
+
+
+    #def animate(self, direction, is_moving):
+
+
     
 
 
