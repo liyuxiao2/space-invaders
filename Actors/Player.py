@@ -10,7 +10,6 @@ class Player(pygame.Rect):
         self.width = width
         self.height = height
         self.speed = speed
-        self.speed = speed
 
         self.shoot_timer = 0.5
         self.last_shot = 0
@@ -19,12 +18,14 @@ class Player(pygame.Rect):
 
     def move(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_RIGHT] and self.x < 800 - self.width:
-            self.move_ip(self.speed,0)
+        if key[pygame.K_RIGHT] and self.x < 1000 - self.width:
+            self.move_ip(self.speed*0.5,0)
             self.updateLocation(self.speed,0)
         if key[pygame.K_LEFT] and self.x  >  0:
             self.move_ip(-self.speed,0)
-            self.updateLocation(-self.speed,0)
+            self.updateLocation(-self.speed*0.5,0)
+
+
 
     def shoot(self):
         key = pygame.key.get_pressed()
