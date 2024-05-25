@@ -11,21 +11,20 @@ screen_width = 1100
 screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
 
+
 # Load character
-char = pygame.image.load('Assets/Images/spaceInvadersPlane.png')
-p1_image = pygame.transform.scale(char, (100, 100))
+p1_image = load_images('Assets/Images/spaceInvadersPlane', 0, 100, 100)
 p1 = Player.Player(50, 50, screen_width / 2, 800, 1, p1_image)
 
-# Background image
-bgimage = pygame.image.load('Assets/Images/background.png')
-bg = pygame.transform.scale(bgimage, (screen_width, screen_height))
 
-# Laser image
-laser_image = pygame.image.load('Assets/Images/laser.png')
-l_image = pygame.transform.scale(laser_image, (100, 100))
+# Background image
+bg = load_images('Assets/Images/background', 0, screen_width, screen_width)
+
+#load laser image
+l_image = load_images('Assets/Images/laser', 0, 100, 100)
 
 # Load enemy images
-enemy_image_list = load_images('Assets/Images/badguy', 5)
+enemy_image_list = load_images('Assets/Images/badguy', 5, 50, 50)
 
 # Initialize lists
 enemies = []
@@ -40,9 +39,11 @@ for i in range(5):
 
 
 
+
+
+
 #intialize scorebar
 score = 0
-
 font = pygame.font.SysFont("comicsans", 30, True)
 
 
@@ -97,7 +98,7 @@ while run:
 
     pygame.display.update()
 
-    # Quit Pygame when SPACE key is pressed
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_y]:
-        pygame.quit()
+    
+    if score == 500:
+        game_over = font.render("GAME OVER (click spacebar to quit)" , 1, (255,255,255)) # Arguments are: text, anti-aliasing, color
+        screen.blit(game_over, (screen_width/2,screen_height/2))

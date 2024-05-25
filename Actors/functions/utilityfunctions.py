@@ -1,13 +1,22 @@
 import pygame
 
-def load_images(base_path, count):
-    images = []
-    for i in range(1, count + 1):
-        image_path = f'{base_path}{i}.png'
+def load_images(base_path, count, scale_width, scale_height):
+    #if count = 0 automatically assume its only 1 image were loading
+    if(count == 0):
+        image_path = f'{base_path}.png'
         image = pygame.image.load(image_path)
-        image = pygame.transform.scale(image, (50,50))
-        images.append(image)
-    return images
+        image = pygame.transform.scale(image, (scale_width,scale_height))
+        return image
+    else:
+        images = []
+        for i in range(1, count + 1):
+            image_path = f'{base_path}{i}.png'
+            image = pygame.image.load(image_path)
+            image = pygame.transform.scale(image, (scale_width,scale_height))
+            images.append(image)
+        return images
+
+
 
 def handle_collisions(enemies, lasers, enemies_to_remove, lasers_to_remove):
     for enemy in enemies:
@@ -17,6 +26,8 @@ def handle_collisions(enemies, lasers, enemies_to_remove, lasers_to_remove):
                     enemies_to_remove.append(enemy)
                 if laser not in lasers_to_remove:
                     lasers_to_remove.append(laser)
+
+                    
 
 def animation(base_path, count):
     frames = load_images(base_path, count)
