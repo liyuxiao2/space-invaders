@@ -4,13 +4,23 @@ from .functions.collision import check_collision  # Use absolute import
 import time
 
 
-class Enemy(Objects):
-    def __init__(self, width, height, locationX, locationY, speed, image) -> None:
-        super().__init__(width, height, locationX, locationY, speed, image)
-        self.image = image
+pygame.mixer.pre_init(44100, -16, 1, 512)
+pygame.mixer.init()
 
+death_path = "Assets/Audio/death.wav"
+death_sound = pygame.mixer.Sound(death_path)
+
+death_image = "Assets/Images/explosion.png"
+class Enemy(Objects):
+    def __init__(self, width, height, locationX, locationY, speed, image, points) -> None:
+        super().__init__(width, height, locationX, locationY, speed, image)
+        self.points = points
         self.move_timer = 1
         self.last_move = 0
+        self.alive = True  # Add a flag to track enemy's alive state
+        self.death_timer = None  # Timer for delay between enemy and explosion image
+        self.explosion_image = pygame.image.load(death_image)
+        self.explosion = pygame.transform.scale(self.explosion_image, (width, height))
 
     def move(self):
         cur_time = time.time()
@@ -24,11 +34,28 @@ class Enemy(Objects):
                 new_y = 100  # Move enemy down by 100 units (adjust as needed)
                 self.move_ip(new_x, new_y)  # Move enemy to the calculated position
 
-
     def die(self, laser):
-        if check_collision(self, laser):  # Use check_collision function
-            return True  # Enemy is hit and should be removed
-        return False  # Enemy is not hit by this lase
+        if check_collision(self, laser) and self.alive:  # Check collision and alive state
+            death_sound.play()
+            self.alive = False  # Mark enemy as dead
+            self.death_timer = time.time()  # Start death timer for removal
+            self.image = death_image  # Update image to explosion
+            return True  # Indicate enemy is hit (for removal)
+        return False  # Enemy is not hit by this laser
+
+    
+    def draw(self, screen):
+        if self.alive:
+            screen.blit(self.image, (self.x, self.y))  # Draw enemy image if alive
+        else:
+            current_time = time.time()
+            if current_time - self.death_timer >= 1:  # Check if 0.5 seconds have passed
+                self.alive = True  # Reset alive flag after delay
+            else:
+                screen.blit(self.explosion, (self.x, self.y))  # Draw explosion image during delay
+
+    def get_points(self):
+        return self.points
 
     
 

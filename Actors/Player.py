@@ -1,6 +1,12 @@
 import pygame
 import time
 
+pygame.mixer.pre_init(44100, -16, 1, 512)
+pygame.mixer.init()
+
+laser_path = 'Assets/Audio/laser.mp3'
+laser_sound = pygame.mixer.Sound(laser_path)
+
 
 class Player(pygame.Rect):
     def __init__(self, width, height, locationX, locationY, speed, image) -> None:
@@ -31,8 +37,9 @@ class Player(pygame.Rect):
         key = pygame.key.get_pressed()
         cur_time = time.time()
         if key[pygame.K_SPACE] and cur_time - self.last_shot > self.shoot_timer:
-             self.last_shot = cur_time 
-             return True
+            laser_sound.play()
+            self.last_shot = cur_time 
+            return True
         return False
 
         

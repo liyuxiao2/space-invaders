@@ -7,9 +7,7 @@ class Laser(Objects):
         super().__init__(width, height, locationX, locationY, speed, image)
 
     def move(self):
-        self.move_ip(0,-self.speed)
-        self.y -= self.speed
-        self.move_ip(0, -self.speed)
+        self.move_ip(0,-self.speed*0.5)
         self.y -= self.speed
 
     def die(self, enemy):  # Change the parameter to a single enemy
