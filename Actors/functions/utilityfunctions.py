@@ -19,13 +19,16 @@ def load_images(base_path, count, scale_width, scale_height):
 
 
 def handle_collisions(enemies, lasers, enemies_to_remove, lasers_to_remove):
+    score = 0
     for enemy in enemies:
         for laser in lasers:
             if enemy.die(laser):
                 if enemy not in enemies_to_remove:
+                    score += enemy.get_points()
                     enemies_to_remove.append(enemy)
                 if laser not in lasers_to_remove:
                     lasers_to_remove.append(laser)
+    return score
 
                     
 

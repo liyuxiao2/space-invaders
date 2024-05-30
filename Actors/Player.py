@@ -1,5 +1,6 @@
 import pygame
 import time
+from .functions.collision import check_collision  # Use absolute import
 
 pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.mixer.init()
@@ -16,9 +17,10 @@ class Player(pygame.Rect):
         self.width = width
         self.height = height
         self.speed = speed
-
         self.shoot_timer = 0.5
         self.last_shot = 0
+        self.lives = 3
+        self.alive = True
 
 
 
@@ -42,10 +44,6 @@ class Player(pygame.Rect):
             return True
         return False
 
-        
-
-
-
 
     def updateLocation(self, changeX, changeY):
         self.x += changeX
@@ -58,8 +56,15 @@ class Player(pygame.Rect):
 
     def get_y(self):
         return self.y
-
-    #def animate(self, direction, is_moving):
+    
+    
+    def die(self, laser):
+        if check_collision(self, laser) and self.alive:  # Check collision and alive state
+            if(self.lives <= 0):
+                return True  # Mark enemy as dead
+            else:
+                self.lives -= 1
+        return False  # Enemy is not hit by this laser
 
 
     

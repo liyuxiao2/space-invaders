@@ -49,9 +49,7 @@ class Enemy(Objects):
             screen.blit(self.image, (self.x, self.y))  # Draw enemy image if alive
         else:
             current_time = time.time()
-            if current_time - self.death_timer >= 1:  # Check if 0.5 seconds have passed
-                self.alive = True  # Reset alive flag after delay
-            else:
+            if current_time - self.death_timer <= 0.5:  # Check if 0.5 seconds have passed
                 screen.blit(self.explosion, (self.x, self.y))  # Draw explosion image during delay
 
     def get_points(self):
@@ -68,4 +66,6 @@ class Enemy(Objects):
             return True
         else:
             return False
-
+        
+        
+    
