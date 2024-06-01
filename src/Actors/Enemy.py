@@ -7,10 +7,10 @@ import time
 pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.mixer.init()
 
-death_path = "Assets/Audio/death.wav"
+death_path = "/Users/liyuxiao/Documents/CS/project-game/src/Assets/Audio/death.wav"
 death_sound = pygame.mixer.Sound(death_path)
 
-death_image = "Assets/Images/explosion.png"
+death_image = "/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/explosion.png"
 class Enemy(Objects):
     def __init__(self, width, height, locationX, locationY, speed, image, points) -> None:
         super().__init__(width, height, locationX, locationY, speed, image)

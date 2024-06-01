@@ -14,17 +14,17 @@ class GameScreen:
         self.font = pygame.font.SysFont("comicsans", 30, True)
         
         # Load character
-        self.p1_image = load_images('Assets/Images/spaceInvadersPlane', 0, 100, 100)
+        self.p1_image = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/spaceInvadersPlane', 0, 100, 100)
         self.p1 = Player.Player(50, 50, screen_width / 2, 800, 1, self.p1_image)
 
         # Background image
-        self.bg = load_images('Assets/Images/background', 0, screen_width, screen_width)
+        self.bg = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/background', 0, screen_width, screen_width)
 
         # Load laser image
-        self.l_image = load_images('Assets/Images/laser', 0, 100, 100)
+        self.l_image = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/laser', 0, 100, 100)
 
         # Load enemy images
-        self.enemy_image_list = load_images('Assets/Images/badguy', 5, 50, 50)
+        self.enemy_image_list = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/badguy', 5, 50, 50)
 
         # Initialize lists
         self.enemies = []

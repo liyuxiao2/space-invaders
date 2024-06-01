@@ -5,7 +5,7 @@ from .functions.collision import check_collision  # Use absolute import
 pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.mixer.init()
 
-laser_path = 'Assets/Audio/laser.mp3'
+laser_path = '/Users/liyuxiao/Documents/CS/project-game/src/Assets/Audio/laser.mp3'
 laser_sound = pygame.mixer.Sound(laser_path)
 
 
