@@ -29,7 +29,7 @@ class GameScreen:
         # Initialize lists
         self.enemies = []
         self.lasers = []
-
+        self.enemy_lasers = []
         # Load all enemies onto the map
         for i in range(5):
             for j in range(10):
@@ -89,20 +89,34 @@ class GameScreen:
             if self.p1.shoot():
                 laser = Laser.Laser(25, 25, self.p1.get_x() + 1, self.p1.get_y() - 60, 1, self.l_image)
                 self.lasers.append(laser)
-
-            # Move and draw lasers
-            for laser in self.lasers:
-                laser.move()
-                self.screen.blit(laser.image, (laser.x, laser.y))
-                if(laser.die(self.p1)):
-                    self.p1.die()
-
+                
             # Draw enemies
             for enemy in self.enemies:
                 enemy.move()
                 enemy.draw(self.screen)  # Use draw method to handle alive and dead states
+                enemy.shoot()
+                if(enemy.shoot() == True):
+                    laser = Laser.Laser(25, 25, enemy.get_x() + 1, enemy.get_y() - 60, 1, self.l_image)
+                    self.enemy_lasers.append(laser)
                 
-                
+            
+            # Move and draw lasers
+            for laser in self.lasers:
+                laser.move(-1)
+                self.screen.blit(laser.image, (laser.x, laser.y))
+                if(laser.die(self.p1)):
+                    self.p1.die()
+                    
+            for laser in self.enemy_lasers:
+                laser.move(+1)  # Move enemy laser to the right
+                self.screen.blit(laser.image, (laser.x, laser.y))
+
+                # Check collision between enemy laser and player
+                if laser.die(self.p1):  # Pass the player object to die
+                    self.p1.die()  # Handle player taking damage
+                    self.enemy_lasers.remove(laser)  # Remove enemy laser
+
+                    
                 
             
             # Check for collisions

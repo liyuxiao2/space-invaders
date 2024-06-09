@@ -58,6 +58,10 @@ class Player(pygame.Rect):
         return self.y
     
     
+    def get_lives(self):
+        return self.lives
+    
+    
     def die(self, laser):
         if check_collision(self, laser) and self.alive:  # Check collision and alive state
             if(self.lives <= 0):

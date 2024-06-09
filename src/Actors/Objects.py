@@ -18,3 +18,9 @@ class Objects(pygame.Rect):
         return self.height
     
     
+    def get_x(self):
+        return self.x
+    
+
+    def get_y(self):
+        return self.y 

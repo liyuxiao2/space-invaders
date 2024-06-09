@@ -2,7 +2,7 @@ import pygame
 from .Objects import Objects
 from .functions.collision import check_collision  # Use absolute import
 import time
-
+import random
 
 pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.mixer.init()
@@ -54,7 +54,16 @@ class Enemy(Objects):
 
     def get_points(self):
         return self.points
+    
+    def shoot(self):
+        # Set a threshold value (0.01 for 1% chance, adjust for desired probability)
+        shoot_threshold = 0.0001
 
+        # Generate a random float between 0.0 (inclusive) and 1.0 (exclusive)
+        random_value = random.random()
+
+        # Return True if random_value is less than the shoot_threshold
+        return random_value < shoot_threshold
     
 
     def colliderect(self, other):
@@ -67,5 +76,6 @@ class Enemy(Objects):
         else:
             return False
         
+      
         
     

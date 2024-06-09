@@ -1,16 +1,19 @@
 import pygame
 from .Objects import Objects
+from .Player import Player
 from .functions.collision import check_collision  # Use absolute import
+from typing import Union
 
 class Laser(Objects):
     def __init__(self, width, height, locationX, locationY, speed, image) -> None:
         super().__init__(width, height, locationX, locationY, speed, image)
 
-    def move(self):
-        self.move_ip(0,-self.speed)
-        self.y -= self.speed
+    def move(self, direction):
+        self.move_ip(0,direction*self.speed)
+        self.y += direction*self.speed
 
-    def die(self, enemy):  # Change the parameter to a single enemy
-        if check_collision(self, enemy):  # Use check_collision function
-            return True  # Enemy is hit and should be removed
-        return False  # Enemy is not hit by this lase
+    def die(self, obj: Union[Objects, Player]) -> bool:  # Use Union type hint
+        if isinstance(obj, Objects):  # Check if object inherits from Objects
+            return check_collision(self, obj)
+        else:
+            return False
