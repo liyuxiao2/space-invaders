@@ -19,8 +19,8 @@ class Player(pygame.Rect):
         self.speed = speed
         self.shoot_timer = 0.5
         self.last_shot = 0
-        self.lives = 3
         self.alive = True
+        self.lives = 3
 
 
 
@@ -58,13 +58,11 @@ class Player(pygame.Rect):
         return self.y
     
     
-    def get_lives(self):
-        return self.lives
     
     
     def die(self, laser):
         if check_collision(self, laser) and self.alive:  # Check collision and alive state
-            if(self.lives <= 0):
+            if self.lives <= 0:
                 return True  # Mark enemy as dead
             else:
                 self.lives -= 1

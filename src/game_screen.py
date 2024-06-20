@@ -2,7 +2,7 @@ import pygame
 import Actors.Player as Player
 import Actors.Enemy as Enemy
 import Actors.Laser as Laser
-from Actors.functions.utilityfunctions import load_images, handle_collisions, animation
+from Actors.functions.utilityfunctions import load_images, handle_collisions, handle_player_collisions
 import time
 
 class GameScreen:
@@ -15,13 +15,14 @@ class GameScreen:
         
         # Load character
         self.p1_image = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/spaceInvadersPlane', 0, 100, 100)
-        self.p1 = Player.Player(50, 50, screen_width / 2, 800, 1, self.p1_image)
+        self.p1 = Player.Player(50, 50, screen_width / 2, 800, 2, self.p1_image)
 
         # Background image
         self.bg = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/background', 0, screen_width, screen_width)
 
         # Load laser image
         self.l_image = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/laser', 0, 100, 100)
+        self.l_e_image = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/enemy_laser', 0, 50,50)
 
         # Load enemy images
         self.enemy_image_list = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/badguy', 5, 50, 50)
@@ -73,6 +74,9 @@ class GameScreen:
             # Update score text
             text = self.font.render("Score: " + str(self.score), 1, (255, 255, 255))  # Arguments are: text, anti-aliasing, color
             self.screen.blit(text, (900, 0))
+            
+            lives = self.font.render("Lives " + str(int(self.hitpoints)),1 , (255,255,255))
+            self.screen.blit(lives, (0,0))
 
             lasers_to_remove = []
             enemies_to_remove = []
@@ -94,44 +98,33 @@ class GameScreen:
             for enemy in self.enemies:
                 enemy.move()
                 enemy.draw(self.screen)  # Use draw method to handle alive and dead states
-                enemy.shoot()
-                if(enemy.shoot() == True):
-                    laser = Laser.Laser(25, 25, enemy.get_x() + 1, enemy.get_y() - 60, 1, self.l_image)
+                if enemy.shoot():
+                    laser = Laser.Laser(25, 25, enemy.get_x() + 1, enemy.get_y() + 60, 1, self.l_e_image)
                     self.enemy_lasers.append(laser)
                 
-            
             # Move and draw lasers
             for laser in self.lasers:
                 laser.move(-1)
                 self.screen.blit(laser.image, (laser.x, laser.y))
-                if(laser.die(self.p1)):
-                    self.p1.die()
                     
             for laser in self.enemy_lasers:
                 laser.move(+1)  # Move enemy laser to the right
                 self.screen.blit(laser.image, (laser.x, laser.y))
-
-                # Check collision between enemy laser and player
-                if laser.die(self.p1):  # Pass the player object to die
-                    self.p1.die()  # Handle player taking damage
-                    self.enemy_lasers.remove(laser)  # Remove enemy laser
-
                     
-                
-            
             # Check for collisions
             self.score += handle_collisions(self.enemies, self.lasers, enemies_to_remove, lasers_to_remove)
+            self.hitpoints -= handle_player_collisions(self.p1, self.enemy_lasers, lasers_to_remove)
 
-            # Update score and remove collided enemies and lasers
-
-            for laser in lasers_to_remove:
-                self.lasers.remove(laser)
+            # Remove collided enemies and lasers safely
+            self.lasers = [laser for laser in self.lasers if laser not in lasers_to_remove]
+            self.enemy_lasers = [laser for laser in self.enemy_lasers if laser not in lasers_to_remove]
+            
 
             # Draw player
             self.screen.blit(self.p1_image, (self.p1.x, self.p1.y))
 
             # Check for game over condition
-            if self.score >= 500:
+            if self.score == 1500 or self.hitpoints == 0:
                 game_over = self.font.render("GAME OVER (click spacebar to quit)", 1, (255, 255, 255))  # Arguments are: text, anti-aliasing, color
                 self.screen.blit(game_over, (self.screen_width / 2, self.screen_height / 2))
                 pygame.display.update()

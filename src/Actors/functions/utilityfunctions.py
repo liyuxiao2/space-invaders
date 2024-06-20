@@ -30,6 +30,14 @@ def handle_collisions(enemies, lasers, enemies_to_remove, lasers_to_remove):
                     lasers_to_remove.append(laser)
     return score
 
+def handle_player_collisions(player, lasers, lasers_to_remove):
+    for laser in lasers:
+        if player.die(laser):
+            if(laser not in lasers_to_remove):
+                lasers_to_remove.append(laser)
+            return 1
+    return 0
+
                     
 
 def animation(base_path, count):
