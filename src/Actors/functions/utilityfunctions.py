@@ -61,3 +61,19 @@ def animation(base_path, count):
     rect = image.get_rect(center = rect.center)
 
     return finished
+
+def transition_effect(screen, screen_width, screen_height, callback):
+        fade_surface = pygame.Surface((screen_width, screen_height))
+        fade_surface.fill((0, 0, 0))
+
+        for alpha in range(0, 255, 10):  # Increase alpha value for smoother fade-out
+            fade_surface.set_alpha(alpha)
+            screen.blit(fade_surface, (0, 0))
+            pygame.display.update()
+            pygame.time.delay(30)  # Adjust delay for the speed of fade-out
+
+        # Optionally, clear the screen after fade-out is complete
+        screen.fill((0, 0, 0))
+        pygame.display.update()
+        
+        callback()

@@ -2,7 +2,7 @@ import pygame
 import Actors.Player as Player
 import Actors.Enemy as Enemy
 import Actors.Laser as Laser
-from Actors.functions.utilityfunctions import load_images, handle_collisions, handle_player_collisions
+from Actors.functions.utilityfunctions import load_images, handle_collisions, handle_player_collisions, transition_effect
 import time
 
 class GameScreen:
@@ -126,14 +126,35 @@ class GameScreen:
             # Check for game over condition
             if self.score == 1500 or self.hitpoints == 0:
                 game_over = self.font.render("GAME OVER (click spacebar to quit)", 1, (255, 255, 255))  # Arguments are: text, anti-aliasing, color
-                self.screen.blit(game_over, (self.screen_width / 2, self.screen_height / 2))
+                self.screen.blit(game_over, (300, 300))
                 pygame.display.update()
                 pygame.time.wait(2000)  # Wait for 2 seconds
-                self.run = False
+                transition_effect(self.screen, self.screen_width, self.screen_height, self.return_to_home_screen)
+                
 
             pygame.display.update()
 
         pygame.quit()
+        
+        
+    def return_to_home_screen(self):
+        # Reset game state here
+        self.score = 0
+        self.hitpoints = 3
+        self.run = True
+        self.lasers = []
+        self.enemy_lasers = []
+        self.enemies = []
+        for i in range(5):
+            for j in range(10):
+                enemy = Enemy.Enemy(100, 100, 0 + j * 100, 100 + i * 100, 0, self.enemy_image_list[i], 50 - (i) * 10)
+                self.enemies.append(enemy)
+
+        # Optionally, clear any other game-specific attributes
+
+        # Return to home screen
+        self.home_screen()
+
 
 # Usage
 def main():
