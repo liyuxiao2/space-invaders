@@ -11,7 +11,7 @@ class GameScreen:
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.screen = pygame.display.set_mode((screen_width, screen_height))
-        self.font = pygame.font.SysFont("comicsans", 30, True)
+        self.font = pygame.font.SysFont("Tahoma", 30, True)
         
         # Load character
         self.p1_image = load_images('/Users/liyuxiao/Documents/CS/project-game/src/Assets/Images/spaceInvadersPlane', 0, 100, 100)
@@ -125,7 +125,7 @@ class GameScreen:
 
             # Check for game over condition
             if self.score == 1500 or self.hitpoints == 0:
-                game_over = self.font.render("GAME OVER (click spacebar to quit)", 1, (255, 255, 255))  # Arguments are: text, anti-aliasing, color
+                game_over = self.font.render("GAME OVER (click spacebar to quit)", 1, (255, 0, 51))  # Arguments are: text, anti-aliasing, color
                 self.screen.blit(game_over, (300, 300))
                 pygame.display.update()
                 pygame.time.wait(2000)  # Wait for 2 seconds
