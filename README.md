@@ -19,4 +19,3 @@ Spacebar: Fire bullets at the aliens.
 Esc: Exit the game.
 
 
-This project is licensed under the MIT License - see the LICENSE file for details.
