@@ -16,6 +16,5 @@ Controls
 Left Arrow: Move the spaceship left.
 Right Arrow: Move the spaceship right.
 Spacebar: Fire bullets at the aliens.
-Esc: Exit the game.
 
 
